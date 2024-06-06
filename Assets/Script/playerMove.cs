@@ -13,23 +13,25 @@ public class playerMove : MonoBehaviour
     public TextMeshProUGUI text;
     private bool playerInRange = false;
     private bool dialogUIDidShow = false;
-    private bool isCanUp = false;
-    private bool isCanDown = false;
-    private bool isCanRight = false;
-    private bool isCanLeft = false;
+    private bool isCanUp = true;
+    private bool isCanDown = true;
+    private bool isCanRight = true;
+    private bool isCanLeft = true;
     private bool isUp = false;
     private bool isDown = false;
     private bool isRight = false;
     private bool isLeft = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+   
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+
+        move();
+
         if (playerInRange && Input.GetKeyDown(KeyCode.Space))
         {
             if (dialogUIDidShow == false)
@@ -50,41 +52,13 @@ public class playerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            gameObject.transform.position += new Vector3(0.1f, 0, 0);
-            isRight = true;
-        } else
-        {
-            isRight = false;
-        }
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            gameObject.transform.position += new Vector3(-0.1f, 0, 0);
-        }
-
-        if (Input.GetKey(KeyCode.UpArrow) && isCanUp)
-        {
-            gameObject.transform.position += new Vector3(0, 0.1f, 0);
-            isUp = true;
-        } else
-        {
-            isUp = false;
-        }
-
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            gameObject.transform.position += new Vector3(0, -0.1f, 0);
-        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         stopmoving();
-
-        //body.velocity = new Vector2(0, 0);
-       // body.constraints = RigidbodyConstraints2D.FreezeAll;
+        Debug.Log("¶i¤JOnCollisionEnter2D");
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -94,14 +68,54 @@ public class playerMove : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-       // body.velocity = new Vector2(0, 0);
+        // setCanMove();
+        Debug.Log("Â÷¶}OnCollisionExit2D");
+    }
+
+    void move()
+    {
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            player.transform.position += new Vector3(0.01f, 0, 0);
+            isRight = true;
+        }
+        else
+        {
+            isRight = false;
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            player.transform.position += new Vector3(-0.01f, 0, 0);
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow) && isCanUp)
+        {
+            player.transform.position += new Vector3(0, 0.01f, 0);
+            isUp = true;
+        }
+        else
+        {
+            isUp = false;
+        }
+
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            player.transform.position += new Vector3(0, -0.01f, 0);
+        }
     }
 
     void stopmoving()
     {
         if (isUp)
         {
-            isCanUp = true;
+            isCanUp = false;
         }
+
+    }
+
+    void setCanMove()
+    {
+        isCanUp = true;
     }
 }
