@@ -1,5 +1,5 @@
 
 static class StaticData
 {
-    public static string spaceDialog = "123";
+    public static string spaceDialog1 = "123456789";
 }

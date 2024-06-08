@@ -32,22 +32,7 @@ public class playerMove : MonoBehaviour
 
         move();
 
-        if (playerInRange && Input.GetKeyDown(KeyCode.Space))
-        {
-            if (dialogUIDidShow == false)
-            {
-                text.text = StaticData.spaceDialog;
-                // 在玩家靠近且按下空白鍵時觸發對話框
-                dialogUI.SetActive(true);
-                dialogUIDidShow = true;
-            }
-            else
-            {
-                dialogUI.SetActive(false);
-                dialogUIDidShow = false;
-            }
-
-        }
+        
     }
 
     private void FixedUpdate()
