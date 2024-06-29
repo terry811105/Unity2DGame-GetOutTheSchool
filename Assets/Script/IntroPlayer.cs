@@ -8,17 +8,21 @@ public class IntroPlayer : MonoBehaviour
     public Transform character; // 角色的Transform组件
     public Vector3 targetPosition; // 目标位置
     public float moveDuration = 2f; // 移动持续时间
-
+    Rigidbody2D rdBody;
     public GameObject dialogUI; // 對話框UI物件
     public TextMeshProUGUI textUI;
     string[] lineData;
     int displayIndex = 0;
     private bool dialogUIDidShow = false;
     bool isTextFinish = false;
-
+    bool isAnimationFinish = false;
+    Animator animator;
+    public float speed = 5f;
     private TypewriterEffect typewriterEffect;
     void Start()
     {
+        animator = GetComponent<Animator>();
+        rdBody = GetComponent<Rigidbody2D>();
         dialogUI.SetActive(false);
         // 使用DOTween移动角色到目标位置
         character.DOMove(targetPosition, moveDuration).OnComplete(OnMoveComplete);
@@ -36,6 +40,29 @@ public class IntroPlayer : MonoBehaviour
     void Update()
     {
         ControlDialog();
+        // ControlMove();
+    }
+
+    void FixedUpdate()
+    {
+        ControlMove();
+    }
+
+    void ControlMove()
+    {
+        if (isAnimationFinish && isTextFinish) 
+        {
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            
+            Vector2 movement = new Vector2(horizontal, vertical);
+
+            rdBody.velocity = speed * movement;
+
+            float speedValue = movement.magnitude;
+            animator.SetFloat("Run", speedValue);
+        }
+        
     }
 
     void OnMoveComplete()
@@ -44,6 +71,7 @@ public class IntroPlayer : MonoBehaviour
         Debug.Log("done");
         dialogUI.SetActive(true);
         dialogUIDidShow = true;
+        isAnimationFinish = true;
         TypeText();
     }
 
