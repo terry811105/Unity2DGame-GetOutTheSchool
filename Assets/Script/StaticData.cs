@@ -3,7 +3,7 @@ static class StaticData
 {
     public static string spaceDialog1 = "123456789";
 
-    static bool checkWindow = false;
+    public static bool checkWindow = false;
     
-    static bool checkTeacherTable = false;
+    public static bool checkTeacherTable = false;
 }
