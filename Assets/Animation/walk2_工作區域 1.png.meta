@@ -158,7 +158,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      "walk2_\u5DE5\u4F5C\u5340\u57DF 1_0": -266083444258436683
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

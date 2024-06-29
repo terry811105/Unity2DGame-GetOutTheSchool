@@ -158,7 +158,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      8bit classroom_0: -5564061394824229037
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
