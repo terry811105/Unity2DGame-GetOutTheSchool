@@ -54,6 +54,15 @@ public class IntroPlayer : MonoBehaviour
         {
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
+
+            if (horizontal > 0)
+            {
+                character.localScale = new Vector3(1.7f, 1.7f, 1.7f);
+            } 
+            else if (horizontal < 0)
+            {
+                character.localScale = new Vector3(-1.7f, 1.7f, 1.7f);
+            }
             
             Vector2 movement = new Vector2(horizontal, vertical);
 
