@@ -16,6 +16,7 @@ public class IntroPlayer : MonoBehaviour
     private bool dialogUIDidShow = false;
     bool isTextFinish = false;
 
+    private TypewriterEffect typewriterEffect;
     void Start()
     {
         dialogUI.SetActive(false);
@@ -23,12 +24,18 @@ public class IntroPlayer : MonoBehaviour
         character.DOMove(targetPosition, moveDuration).OnComplete(OnMoveComplete);
 
         GetTextFormFile(textFiled);
+
+         typewriterEffect = textUI.GetComponent<TypewriterEffect>();
+         if (typewriterEffect == null)
+        {
+            typewriterEffect = textUI.gameObject.AddComponent<TypewriterEffect>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        controlDialog();
+        ControlDialog();
     }
 
     void OnMoveComplete()
@@ -37,28 +44,26 @@ public class IntroPlayer : MonoBehaviour
         Debug.Log("done");
         dialogUI.SetActive(true);
         dialogUIDidShow = true;
+        TypeText();
     }
 
     void GetTextFormFile(TextAsset file)
     {
         //將檔案文字分割並儲存成字串陣列
         lineData = file.text.Split('\n'); //換行就切割
-        if (lineData.Length > 0)
-        {
-            textUI.text = lineData[0];
-            displayIndex++;
-        }
+        // if (lineData.Length > 0)
+        // {
+        //     textUI.text = lineData[0];
+        //     displayIndex++;
+        // }
     }
 
-    void showText()
+    void ControlShowText()
     {
 
         if (Input.GetKeyDown(KeyCode.Space) && displayIndex < lineData.Length && dialogUIDidShow)
         {
-
-            textUI.text = lineData[displayIndex];
-            displayIndex++;
-
+            TypeText();
         }
 
         if (displayIndex == lineData.Length)
@@ -67,7 +72,13 @@ public class IntroPlayer : MonoBehaviour
         }
     }
 
-    void controlDialog()
+    void TypeText() 
+    {
+        typewriterEffect.StartTyping(lineData[displayIndex]);
+        displayIndex++;
+    }
+
+    void ControlDialog()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -75,7 +86,7 @@ public class IntroPlayer : MonoBehaviour
 
             if (dialogUIDidShow && isTextFinish == false)
             {
-                showText();
+                ControlShowText();
             }
 
             else if (dialogUIDidShow && isTextFinish)
