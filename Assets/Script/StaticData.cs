@@ -7,3 +7,4 @@ static class StaticData
     
     public static bool checkTeacherTable = false;
 }
+

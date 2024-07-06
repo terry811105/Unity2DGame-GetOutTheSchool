@@ -17,7 +17,7 @@ public class IntroPlayer : MonoBehaviour
     bool isTextFinish = false;
     bool isAnimationFinish = false;
     Animator animator;
-    public float speed = 5f;
+    public float speed = 50f;
     private TypewriterEffect typewriterEffect;
     void Start()
     {
@@ -26,7 +26,7 @@ public class IntroPlayer : MonoBehaviour
         dialogUI.SetActive(false);
         // 使用DOTween移动角色到目标位置
         character.DOMove(targetPosition, moveDuration).OnComplete(OnMoveComplete);
-
+        animator.SetFloat("Run", 0.2f);
         GetTextFormFile(textFiled);
 
          typewriterEffect = textUI.GetComponent<TypewriterEffect>();
@@ -81,6 +81,7 @@ public class IntroPlayer : MonoBehaviour
         dialogUI.SetActive(true);
         dialogUIDidShow = true;
         isAnimationFinish = true;
+        animator.SetFloat("Run", 0.0f);
         TypeText();
     }
 

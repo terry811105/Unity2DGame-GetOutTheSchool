@@ -8,8 +8,8 @@ public class playerMove : MonoBehaviour
     public GameObject player;
     private Rigidbody2D body;
 
-    public GameObject promptUI; // 顯示提示的UI物件
-    public GameObject dialogUI; // 對話框UI物件
+    public GameObject promptUI; 
+    public GameObject dialogUI; 
     public TextMeshProUGUI text;
     private bool playerInRange = false;
     private bool dialogUIDidShow = false;
@@ -43,7 +43,7 @@ public class playerMove : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         stopmoving();
-        Debug.Log("進入OnCollisionEnter2D");
+        Debug.Log("OnCollisionEnter2D");
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -54,7 +54,7 @@ public class playerMove : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         // setCanMove();
-        Debug.Log("離開OnCollisionExit2D");
+        Debug.Log("OnCollisionExit2D");
     }
 
     void move()
