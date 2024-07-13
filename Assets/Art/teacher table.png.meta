@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 38925a9e19dbca94f8e72c195a5ccf92
+guid: ebea3a22145ec49a78d5b935bdfe1cdf
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5661118252043614225
-    second: "kenWalk_\u5DE5\u4F5C\u5340\u57DF 1_0"
+      213: -177697172315298006
+    second: teacher table_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,43 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "kenWalk_\u5DE5\u4F5C\u5340\u57DF 1_0"
+      name: teacher table_0
       rect:
         serializedVersion: 2
-        x: 53
-        y: 0
-        width: 138
-        height: 249
+        x: 6
+        y: 9
+        width: 98
+        height: 54
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fe7c57391faaf61b0800000000000000
-      internalID: -5661118252043614225
+      spriteID: a272e8efc51b88df0800000000000000
+      internalID: -177697172315298006
       vertices: []
       indices: 
       edges: []
@@ -160,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      "kenWalk_\u5DE5\u4F5C\u5340\u57DF 1_0": -5661118252043614225
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
