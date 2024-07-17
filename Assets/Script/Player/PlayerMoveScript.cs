@@ -56,7 +56,7 @@ public class PlayerMoveScript : MonoBehaviour
 
         if (horizontal != 0)
         {
-            transform.localScale = new Vector3(Mathf.Sign(horizontal) * 1.7f, 1.7f, 1.7f);
+            transform.localScale = new Vector3(Mathf.Sign(horizontal) * 15f, 15f, 15f);
         }
 
         Vector2 movement = new Vector2(horizontal, vertical);
@@ -70,7 +70,7 @@ public class PlayerMoveScript : MonoBehaviour
     {
         if (movement.x != 0)
         {
-            transform.localScale = new Vector3(Mathf.Sign(movement.x) * 1.7f, 1.7f, 1.7f);
+            transform.localScale = new Vector3(Mathf.Sign(movement.x) *15f, 15f, 15f);
         }
 
         float speedValue = movement.magnitude;
