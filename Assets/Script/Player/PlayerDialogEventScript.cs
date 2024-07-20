@@ -85,6 +85,7 @@ public class PlayerDialogEventScript : MonoBehaviour
                     text = values[3],
                     emotion = values[4]
                 };
+                Debug.Log("加载的对话: " + dialog.text );
                 allDialogs.Add(dialog);
             }
         }
