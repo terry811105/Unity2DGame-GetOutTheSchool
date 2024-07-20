@@ -26,7 +26,7 @@ public class PlayerIntroAnitmateScript : MonoBehaviour
     {
         // 通知其他腳本動畫完成
         GetComponent<PlayerDialogEventScript>().OnIntroAnimationComplete();
-        
+        GetComponent<PlayerMoveScript>().animator.Play("Idle_down");
         transform.position = targetPosition;
     }
 }
