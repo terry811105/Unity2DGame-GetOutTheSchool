@@ -3271,7 +3271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterScale: 15
   speed: 5
-  animator: {fileID: 0}
+  animator: {fileID: 1528707300}
   character: {fileID: 1528707302}
   canMove: 0
 --- !u!95 &1528707300
