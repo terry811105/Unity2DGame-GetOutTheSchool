@@ -8,7 +8,7 @@ public class camaraMove : MonoBehaviour
   
     void Start()
     {
-        this.player = GameObject.Find("player");
+        this.player = GameObject.Find("Player");
     }
 
     void Update()
