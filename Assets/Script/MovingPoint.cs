@@ -3,7 +3,7 @@ using UnityEngine;
 public class MovingPoint : MonoBehaviour
 {
     public float speed = 5f;
-    public float radius = 2f;
+    public float radius = 4f;
 
     private float angle = 0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
