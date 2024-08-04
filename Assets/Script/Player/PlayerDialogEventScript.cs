@@ -18,6 +18,7 @@ public class PlayerDialogEventScript : MonoBehaviour
 {
     public GameObject spaceBtnUI;
     public GameObject dialogUI;
+    public GameObject ghost;
     public TextMeshProUGUI textUI;
     private bool isDialogActive = false;
     private bool canStartDialog = false;
@@ -29,6 +30,7 @@ public class PlayerDialogEventScript : MonoBehaviour
     {
         spaceBtnUI.SetActive(false);
         dialogUI.SetActive(false);
+        ghost.SetActive(false);
         LoadDialogsFromCSV();
         SetupTypewriterEffect();
     }
@@ -141,6 +143,10 @@ public class PlayerDialogEventScript : MonoBehaviour
         currentDialogQueue = new Queue<Dialog>(dialogs);
         ShowNextLine();
         GetComponent<PlayerMoveScript>().canMove = false;
+        if (currentEventType == EventType.Talk1) 
+        {
+            ghost.SetActive(true);
+        }
     }
 
     private void ShowNextLine()

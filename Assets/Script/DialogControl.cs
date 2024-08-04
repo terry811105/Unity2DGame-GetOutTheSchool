@@ -6,8 +6,8 @@ public class DialogControl : MonoBehaviour
 {
     public TextAsset textFiled;
     public TextMeshProUGUI textUI;
-    public GameObject promptUI; // 顯示提示的UI物件
-    public GameObject dialogUI; // 對話框UI物件
+    public GameObject promptUI; 
+    public GameObject dialogUI; 
 
     private bool playerInRange = false;
     private bool dialogUIDidShow = false;
@@ -32,10 +32,10 @@ public class DialogControl : MonoBehaviour
         {
             if (dialogUIDidShow == false)
             {
-                // 在玩家靠近且按下空白鍵時觸發對話框
+                
                 dialogUI.SetActive(true);
                 dialogUIDidShow = true;
-                Debug.Log("按下空白建 顯示對話框");
+                Debug.Log("123");
             }
 
             else if (dialogUIDidShow && isTextFinish == false)
@@ -53,7 +53,7 @@ public class DialogControl : MonoBehaviour
 
         if (playerInRange == false)
         {
-            promptUI.SetActive(false); // 隱藏提示UI
+            promptUI.SetActive(false);
             dialogUI.SetActive(false);
         }
 
@@ -62,8 +62,8 @@ public class DialogControl : MonoBehaviour
 
     void GetTextFormFile(TextAsset file)
     {
-        //將檔案文字分割並儲存成字串陣列
-        lineData = file.text.Split('\n'); //換行就切割
+        
+        lineData = file.text.Split('\n'); 
         if (lineData.Length > 0 )
         {
             textUI.text = lineData[0];
@@ -99,7 +99,7 @@ public class DialogControl : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             playerInRange = true;
-            promptUI.SetActive(true); // 顯示提示UI
+            promptUI.SetActive(true); 
             Debug.Log("1111111");
         }
     }
