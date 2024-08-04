@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 1380ee1d5e2d0124a92896667f4e7ad1
+guid: d6b701d6d7d751a4eb6ed71b816777c4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1237306911603411684
-    second: rollbook_0
-  - first:
-      213: 8494030471353134075
-    second: rollbook_1
-  - first:
-      213: -8922668919876674769
-    second: rollbook_2
-  - first:
-      213: -1313971820537584166
-    second: rollbook_3
+      213: -5099292496197868168
+    second: 10_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: rollbook_0
+      name: 10_0
       rect:
         serializedVersion: 2
-        x: 88
-        y: 1543
-        width: 19
-        height: 18
+        x: 0
+        y: 0
+        width: 187
+        height: 163
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,74 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4eac140a41ccb2110800000000000000
-      internalID: 1237306911603411684
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rollbook_1
-      rect:
-        serializedVersion: 2
-        x: 351
-        y: 189
-        width: 1240
-        height: 1601
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bfbe85cd5bbd0e570800000000000000
-      internalID: 8494030471353134075
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rollbook_2
-      rect:
-        serializedVersion: 2
-        x: 1649
-        y: 350
-        width: 125
-        height: 1363
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f2b155644ef4c2480800000000000000
-      internalID: -8922668919876674769
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rollbook_3
-      rect:
-        serializedVersion: 2
-        x: 1930
-        y: 864
-        width: 6
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ad5ebf74795d3cde0800000000000000
-      internalID: -1313971820537584166
+      spriteID: 875af4eed7cab39b0800000000000000
+      internalID: -5099292496197868168
       vertices: []
       indices: 
       edges: []

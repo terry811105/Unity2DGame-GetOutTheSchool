@@ -158,7 +158,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bullyingdeskjp_0: -1476017137574921929
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

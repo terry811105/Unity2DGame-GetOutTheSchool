@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 001817ace0fc0bb48a59ce4fbeca5fab
+guid: fbb33e5a92f18a740bff19c0a0cf8056
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -553559710141512618
-    second: bullyingtable_0
+      213: 6660783624410144326
+    second: 17_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bullyingtable_0
+      name: 17_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 960
-        height: 478
+        width: 187
+        height: 163
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6540c03606c5158f0800000000000000
-      internalID: -553559710141512618
+      spriteID: 64e94b28a6bdf6c50800000000000000
+      internalID: 6660783624410144326
       vertices: []
       indices: 
       edges: []
@@ -158,8 +158,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      bullyingtable_0: -553559710141512618
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
