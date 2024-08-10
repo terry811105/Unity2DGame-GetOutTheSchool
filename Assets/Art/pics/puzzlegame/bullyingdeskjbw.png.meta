@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 80cfc455a7892fd47818f8f1c52c85f6
+guid: 342e80c05be18d9438fe88523edb3252
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4746955836059229212
-    second: bullyingdesk_0
+      213: -7600754048322966023
+    second: bullyingdeskjbw_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bullyingdesk_0
+      name: bullyingdeskjbw_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c1c17c4be2390e140800000000000000
-      internalID: 4746955836059229212
+      spriteID: 9fde89ca672b48690800000000000000
+      internalID: -7600754048322966023
       vertices: []
       indices: 
       edges: []
