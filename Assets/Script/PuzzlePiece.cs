@@ -2,22 +2,21 @@ using UnityEngine;
 
 public class PuzzlePiece : MonoBehaviour
 {
-    public Vector2Int correctGridPosition; // 正確的網格位置
-    public float snapThreshold = 0.5f; // 吸附閾值
-    public Vector2 correctPosition;
-    private Vector3 offset;
-    private bool isDragging = false;
+    public Vector2Int correctGridPosition;
+    private Vector3 dragOffset;
+    private Camera cam;
     private PuzzleGameManager gameManager;
+    private bool isDragging = false;
 
-    [System.Obsolete]
     void Start()
     {
-        gameManager = FindObjectOfType<PuzzleGameManager>();
+        cam = Camera.main;
+        gameManager = FindAnyObjectByType<PuzzleGameManager>();
     }
 
     void OnMouseDown()
     {
-        offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        dragOffset = transform.position - GetMousePosition();
         isDragging = true;
     }
 
@@ -25,8 +24,7 @@ public class PuzzlePiece : MonoBehaviour
     {
         if (isDragging)
         {
-            Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
-            transform.position = new Vector3(newPosition.x, newPosition.y, 0);
+            transform.position = GetMousePosition() + dragOffset;
         }
     }
 
@@ -34,10 +32,9 @@ public class PuzzlePiece : MonoBehaviour
     {
         isDragging = false;
         Vector2Int currentGridPos = gameManager.GetGridPosition(transform.position);
-
+        
         if (currentGridPos == correctGridPosition)
         {
-            // 吸附到正確位置
             transform.position = gameManager.GetWorldPosition(currentGridPos);
             gameManager.PlacePiece(this, currentGridPos);
         }
@@ -46,4 +43,12 @@ public class PuzzlePiece : MonoBehaviour
             gameManager.RemovePiece(this);
         }
     }
+
+    Vector3 GetMousePosition()
+    {
+        Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        return mousePos;
+    }
+
 }

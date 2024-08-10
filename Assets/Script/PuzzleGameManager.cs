@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 public class PuzzleGameManager : MonoBehaviour
 {
-   public Vector2Int puzzleSize = new Vector2Int(4, 4);
-    private PuzzlePiece[,] puzzleGrid;
+    public GameObject puzzlePiecePrefab;
     public Transform puzzleArea;
+    public Vector2Int puzzleSize = new Vector2Int(4, 3);
     public float pieceSpacing = 1.1f;
-    private List<PuzzlePiece> puzzlePieces = new List<PuzzlePiece>();
+
+    private PuzzlePiece[,] puzzleGrid;
     private int placedPieces = 0;
-    
+
     void Start()
     {
         puzzleGrid = new PuzzlePiece[puzzleSize.x, puzzleSize.y];
@@ -18,55 +19,74 @@ public class PuzzleGameManager : MonoBehaviour
 
     void SetupPuzzlePieces()
     {
-        PuzzlePiece[] pieces = FindObjectsOfType<PuzzlePiece>();
-        foreach (PuzzlePiece piece in pieces)
+        for (int y = 0; y < puzzleSize.y; y++)
         {
-            // 根據拼圖塊的初始位置設置correctGridPosition
-            piece.correctGridPosition = GetGridPosition(piece.transform.position);
+            for (int x = 0; x < puzzleSize.x; x++)
+            {
+                Vector3 position = GetWorldPosition(new Vector2Int(x, y));
+                GameObject pieceObj = Instantiate(puzzlePiecePrefab, GetRandomPosition(), Quaternion.identity);
+                PuzzlePiece piece = pieceObj.GetComponent<PuzzlePiece>();
+                piece.correctGridPosition = new Vector2Int(x, y);
+
+                // 設置正確的Sprite
+                // 你需要根據你的拼圖圖片來實現這個邏輯
+                // SetCorrectSprite(piece, x, y);
+            }
         }
     }
 
-    Vector2Int GetGridPosition(Vector3 worldPosition)
+    public Vector2Int GetGridPosition(Vector3 worldPosition)
     {
-        // 將世界坐標轉換為網格坐標
-        // 這裡需要根據你的場景設置進行調整
-        int x = Mathf.RoundToInt(worldPosition.x / pieceSpacing);
-        int y = Mathf.RoundToInt(worldPosition.y / pieceSpacing);
+        Vector3 localPos = worldPosition - puzzleArea.position;
+        int x = Mathf.RoundToInt(localPos.x / pieceSpacing);
+        int y = Mathf.RoundToInt(localPos.y / pieceSpacing);
         return new Vector2Int(x, y);
     }
 
     public Vector3 GetWorldPosition(Vector2Int gridPosition)
-{
-    // 將網格坐標轉換為世界坐標
-    return new Vector3(gridPosition.x * pieceSpacing, gridPosition.y * pieceSpacing, 0) + puzzleArea.position;
-}
-
-public void PlacePiece(PuzzlePiece piece, Vector2Int gridPosition)
-{
-    if (puzzleGrid[gridPosition.x, gridPosition.y] == null)
     {
-        puzzleGrid[gridPosition.x, gridPosition.y] = piece;
-        placedPieces++;
-        CheckPuzzleCompletion();
+        return new Vector3(gridPosition.x * pieceSpacing, gridPosition.y * pieceSpacing, 0) + puzzleArea.position;
     }
-}
 
-public void RemovePiece(PuzzlePiece piece)
-{
-    Vector2Int gridPos = GetGridPosition(piece.transform.position);
-    if (puzzleGrid[gridPos.x, gridPos.y] == piece)
+    public void PlacePiece(PuzzlePiece piece, Vector2Int gridPosition)
     {
-        puzzleGrid[gridPos.x, gridPos.y] = null;
-        placedPieces--;
+        if (IsValidGridPosition(gridPosition) && puzzleGrid[gridPosition.x, gridPosition.y] == null)
+        {
+            puzzleGrid[gridPosition.x, gridPosition.y] = piece;
+            placedPieces++;
+            CheckPuzzleCompletion();
+        }
     }
-}
 
-void CheckPuzzleCompletion()
-{
-    if (placedPieces == puzzleSize.x * puzzleSize.y)
+    public void RemovePiece(PuzzlePiece piece)
     {
-        Debug.Log("拼圖完成！");
-        // 在這裡添加完成拼圖後的操作
+        Vector2Int gridPos = GetGridPosition(piece.transform.position);
+        if (IsValidGridPosition(gridPos) && puzzleGrid[gridPos.x, gridPos.y] == piece)
+        {
+            puzzleGrid[gridPos.x, gridPos.y] = null;
+            placedPieces--;
+        }
     }
-}
+
+    void CheckPuzzleCompletion()
+    {
+        if (placedPieces == puzzleSize.x * puzzleSize.y)
+        {
+            Debug.Log("拼圖完成！");
+            // 在這裡添加完成拼圖後的操作
+        }
+    }
+
+    bool IsValidGridPosition(Vector2Int gridPos)
+    {
+        return gridPos.x >= 0 && gridPos.x < puzzleSize.x && gridPos.y >= 0 && gridPos.y < puzzleSize.y;
+    }
+
+    Vector3 GetRandomPosition()
+    {
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+        Vector3 randomScreenPosition = new Vector3(Random.Range(0, screenWidth), Random.Range(0, screenHeight), 0);
+        return Camera.main.ScreenToWorldPoint(randomScreenPosition);
+    }
 }
