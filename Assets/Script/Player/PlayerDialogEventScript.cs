@@ -26,6 +26,10 @@ public class PlayerDialogEventScript : MonoBehaviour
     private Queue<Dialog> currentDialogQueue;
     private EventType currentEventType;
     private TypewriterEffect typewriterEffect;
+
+    public GameObject keyGamePrefab;
+
+    public GameObject puzzleGamePrefab;
     void Start()
     {
         spaceBtnUI.SetActive(false);
@@ -40,9 +44,9 @@ public class PlayerDialogEventScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (canStartDialog && !isDialogActive) 
+            if (canStartDialog && !isDialogActive)
             {
-                StartEventDialog(); 
+                StartEventDialog();
             }
             else if (isDialogActive)
             {
@@ -87,7 +91,7 @@ public class PlayerDialogEventScript : MonoBehaviour
                     text = values[3],
                     emotion = values[4]
                 };
-                Debug.Log("加载的对话: " + dialog.text );
+                Debug.Log("加载的对话: " + dialog.text);
                 allDialogs.Add(dialog);
             }
         }
@@ -125,7 +129,7 @@ public class PlayerDialogEventScript : MonoBehaviour
         canStartDialog = false;
     }
 
-     private void StartEventDialog()
+    private void StartEventDialog()
     {
         List<Dialog> eventDialogs = allDialogs.Where(d => d.eventType == currentEventType.ToString()).ToList();
         if (eventDialogs.Count > 0)
@@ -143,7 +147,7 @@ public class PlayerDialogEventScript : MonoBehaviour
         currentDialogQueue = new Queue<Dialog>(dialogs);
         ShowNextLine();
         GetComponent<PlayerMoveScript>().canMove = false;
-        if (currentEventType == EventType.Talk1) 
+        if (currentEventType == EventType.Talk1)
         {
             ghost.SetActive(true);
         }
@@ -156,7 +160,7 @@ public class PlayerDialogEventScript : MonoBehaviour
             Dialog currentDialog = currentDialogQueue.Dequeue();
             string displayText = $"{currentDialog.character}: {currentDialog.text}";
             typewriterEffect.StartTyping(displayText);
-            
+
             // 這裡可以根據 currentDialog.emotion 設置角色表情或其他視覺效果
         }
         else
@@ -169,7 +173,25 @@ public class PlayerDialogEventScript : MonoBehaviour
     {
         isDialogActive = false;
         dialogUI.SetActive(false);
+        checkIsNeedLoadMiniGame();
         GetComponent<PlayerMoveScript>().canMove = true;
+    }
+
+    private void checkIsNeedLoadMiniGame()
+    {
+        if (currentEventType == EventType.Game1)
+        {
+            
+            GameObject miniGameInstance = Instantiate(keyGamePrefab, transform.position, Quaternion.identity);
+            miniGameInstance.transform.localPosition = new Vector3(transform.position.x, transform.position.y, -10f);  // 使小遊戲顯示在前面
+            // miniGameInstance.transform.localScale = Vector3.one;  // 確保縮放為正常比例
+            miniGameInstance.transform.localPosition = Vector3.zero; 
+            miniGameInstance.transform.SetParent(transform, false);
+        }
+        else if (currentEventType == EventType.Game2)
+        {
+            Instantiate(puzzleGamePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        }
     }
 
     private void SetupTypewriterEffect()
