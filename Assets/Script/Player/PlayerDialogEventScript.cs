@@ -27,6 +27,8 @@ public class PlayerDialogEventScript : MonoBehaviour
     private EventType currentEventType;
     private TypewriterEffect typewriterEffect;
 
+    public GameObject littleGameParent;
+
     public GameObject keyGamePrefab;
 
     public GameObject puzzleGamePrefab;
@@ -174,23 +176,29 @@ public class PlayerDialogEventScript : MonoBehaviour
         isDialogActive = false;
         dialogUI.SetActive(false);
         checkIsNeedLoadMiniGame();
-        GetComponent<PlayerMoveScript>().canMove = true;
+       
     }
 
     private void checkIsNeedLoadMiniGame()
     {
         if (currentEventType == EventType.Game1)
         {
-            
-            GameObject miniGameInstance = Instantiate(keyGamePrefab, transform.position, Quaternion.identity);
-            miniGameInstance.transform.localPosition = new Vector3(transform.position.x, transform.position.y, -10f);  // 使小遊戲顯示在前面
+            // SceneLoader.LoadKeyMiniGame();
+            GameObject miniGameInstance = Instantiate(keyGamePrefab, littleGameParent.transform.position, Quaternion.identity);
+            // miniGameInstance.transform.localPosition = new Vector3(transform.position.x, transform.position.y, -10f);  // 使小遊戲顯示在前面
             // miniGameInstance.transform.localScale = Vector3.one;  // 確保縮放為正常比例
-            miniGameInstance.transform.localPosition = Vector3.zero; 
-            miniGameInstance.transform.SetParent(transform, false);
+            // miniGameInstance.transform.localPosition = Vector3.zero; 
+            miniGameInstance.transform.SetParent(littleGameParent.transform, false);
+             miniGameInstance.transform.localPosition = Vector3.zero;
         }
         else if (currentEventType == EventType.Game2)
         {
-            Instantiate(puzzleGamePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            SceneLoader.LoadPuzzleMiniGame();
+            // Instantiate(puzzleGamePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        }
+        else 
+        {
+             GetComponent<PlayerMoveScript>().canMove = true;
         }
     }
 

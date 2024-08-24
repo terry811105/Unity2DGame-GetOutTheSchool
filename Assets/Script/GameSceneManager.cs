@@ -1,16 +1,25 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static void LoadMiniGame(string sceneName)
     {
-        
+        SceneManager.LoadSceneAsync(sceneName);
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void LoadKeyMiniGame()
     {
-        
+        SceneManager.LoadSceneAsync("KeyGameScene", LoadSceneMode.Additive);
+    }
+
+    public static void LoadPuzzleMiniGame()
+    {
+        SceneManager.LoadSceneAsync("PuzzleScene");
+    }
+
+    public static void ReturnToMainScene()
+    {
+        SceneManager.UnloadSceneAsync("KeyGameScene");
     }
 }
