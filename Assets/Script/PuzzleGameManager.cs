@@ -80,7 +80,7 @@ public class PuzzleGameManager : BasePrefab
         {
             Debug.Log("拼圖完成！");
             // 在這裡添加完成拼圖後的操作
-            DestroyEntirePrefab();
+            DestroyEntirePrefab("PuzzleGame");
         }
     }
 

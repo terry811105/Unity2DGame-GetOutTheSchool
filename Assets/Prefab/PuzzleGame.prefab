@@ -1603,7 +1603,7 @@ Transform:
   m_GameObject: {fileID: 7843055793318151156}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.65542334, y: -0.35428733, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1623,7 +1623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabRootNamePrefix: LittleGame
   puzzlePiecePrefab: {fileID: 2985761400703698179}
-  puzzleArea: {fileID: 0}
+  puzzleArea: {fileID: 1593068032422604146}
   puzzleSize: {x: 4, y: 3}
   pieceSpacing: 1.1
 --- !u!1 &7921112872991189885

@@ -27,7 +27,7 @@ public class KeyGameManager : BasePrefab
                 // 在這裡添加成功的邏輯
                 // StartCoroutine(SuccessSequence());
 
-                DestroyEntirePrefab();
+                DestroyEntirePrefab("KeyGame");
                 PlayerMoveScript playerScript = FindObjectOfType<PlayerMoveScript>();
                 if (playerScript != null)
                 {

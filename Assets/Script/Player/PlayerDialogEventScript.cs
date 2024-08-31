@@ -28,6 +28,8 @@ public class PlayerDialogEventScript : MonoBehaviour
     private TypewriterEffect typewriterEffect;
 
     public GameObject littleGameParent;
+    public GameObject keyGameParent;
+    public GameObject puzzleGameParent;
 
     public GameObject keyGamePrefab;
 
@@ -182,15 +184,16 @@ public class PlayerDialogEventScript : MonoBehaviour
     private void checkIsNeedLoadMiniGame()
     {
         if (currentEventType == EventType.Game1)
-        {;
-            GameObject miniGameInstance = Instantiate(keyGamePrefab, littleGameParent.transform.position, Quaternion.identity);
-            miniGameInstance.transform.SetParent(littleGameParent.transform, false);
-            // miniGameInstance.transform.localPosition = Vector3.zero;
+        {
+            GameObject miniGameInstance = Instantiate(keyGamePrefab, keyGameParent.transform.position, Quaternion.identity);
+            miniGameInstance.transform.SetParent(keyGameParent.transform, false);
+            miniGameInstance.transform.localPosition = Vector3.zero;
         }
         else if (currentEventType == EventType.Game2)
         {
-            GameObject miniGameInstance = Instantiate(puzzleGamePrefab, littleGameParent.transform.position, Quaternion.identity);
-            miniGameInstance.transform.SetParent(littleGameParent.transform, false);
+            GameObject miniGameInstance = Instantiate(puzzleGamePrefab, puzzleGameParent.transform.position, Quaternion.identity);
+            miniGameInstance.transform.SetParent(puzzleGameParent.transform, false);
+            miniGameInstance.transform.localPosition = Vector3.zero;
         }
         else 
         {

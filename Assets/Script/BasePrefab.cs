@@ -5,9 +5,9 @@ public class BasePrefab : MonoBehaviour
 
     public string prefabRootNamePrefix = "LittleGame"; // prefab根物件名稱的前綴
 
-    public void DestroyEntirePrefab()
+    public void DestroyEntirePrefab(string parentName)
     {
-        GameObject prefabRoot = FindPrefabRootByName();
+        GameObject prefabRoot = FindPrefabRootByName(parentName);
         if (prefabRoot != null)
         {
             Destroy(prefabRoot);
@@ -19,17 +19,17 @@ public class BasePrefab : MonoBehaviour
         }
     }
 
-    GameObject FindPrefabRootByName()
+    GameObject FindPrefabRootByName(string parentName)
     {
         Transform current = transform;
         while (current.parent != null)
         {
-            if (current.name.StartsWith(prefabRootNamePrefix))
+            if (current.name.StartsWith(parentName))
             {
                 return current.gameObject;
             }
             current = current.parent;
         }
-        return current.name.StartsWith(prefabRootNamePrefix) ? current.gameObject : null;
+        return current.name.StartsWith(parentName) ? current.gameObject : null;
     }
 }
