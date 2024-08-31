@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class PuzzlePiece : MonoBehaviour
 {
-    public Vector2 correctGridPosition;
+    public Vector2 correctPosition;
+
+    public Vector2Int correctGridPosition;
     private Vector3 dragOffset;
     private Camera cam;
     private PuzzleGameManager gameManager;
     private bool isDragging = false;
+
+    float fitRange = 0.1f;
 
     void Start()
     {
@@ -31,12 +35,13 @@ public class PuzzlePiece : MonoBehaviour
     void OnMouseUp()
     {
         isDragging = false;
-        Vector2Int currentGridPos = gameManager.GetGridPosition(transform.position);
-        
-        if (currentGridPos == correctGridPosition)
+        Vector2 currentPosition =  transform.localPosition;
+        float distance = Vector2.Distance(currentPosition, correctPosition);
+        Debug.Log("distance: " + distance + ", current: " + currentPosition + ", correct: " + correctPosition);
+        if (distance < fitRange)
         {
-            transform.position = gameManager.GetWorldPosition(currentGridPos);
-            gameManager.PlacePiece(this, currentGridPos);
+            transform.localPosition = correctPosition;
+            gameManager.PlacePiece(this, correctGridPosition);
         }
         else
         {

@@ -182,19 +182,15 @@ public class PlayerDialogEventScript : MonoBehaviour
     private void checkIsNeedLoadMiniGame()
     {
         if (currentEventType == EventType.Game1)
-        {
-            // SceneLoader.LoadKeyMiniGame();
+        {;
             GameObject miniGameInstance = Instantiate(keyGamePrefab, littleGameParent.transform.position, Quaternion.identity);
-            // miniGameInstance.transform.localPosition = new Vector3(transform.position.x, transform.position.y, -10f);  // 使小遊戲顯示在前面
-            // miniGameInstance.transform.localScale = Vector3.one;  // 確保縮放為正常比例
-            // miniGameInstance.transform.localPosition = Vector3.zero; 
             miniGameInstance.transform.SetParent(littleGameParent.transform, false);
-             miniGameInstance.transform.localPosition = Vector3.zero;
+            // miniGameInstance.transform.localPosition = Vector3.zero;
         }
         else if (currentEventType == EventType.Game2)
         {
-            SceneLoader.LoadPuzzleMiniGame();
-            // Instantiate(puzzleGamePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject miniGameInstance = Instantiate(puzzleGamePrefab, littleGameParent.transform.position, Quaternion.identity);
+            miniGameInstance.transform.SetParent(littleGameParent.transform, false);
         }
         else 
         {

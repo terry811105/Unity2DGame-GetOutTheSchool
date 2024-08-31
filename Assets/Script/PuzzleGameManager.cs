@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class PuzzleGameManager : MonoBehaviour
+public class PuzzleGameManager : BasePrefab
 {
     public GameObject puzzlePiecePrefab;
     public Transform puzzleArea;
@@ -11,10 +11,15 @@ public class PuzzleGameManager : MonoBehaviour
     private PuzzlePiece[,] puzzleGrid;
     private int placedPieces = 0;
 
+    bool IsValidGridPosition(Vector2Int gridPos)
+    {
+        return gridPos.x >= 0 && gridPos.x < puzzleSize.x && gridPos.y >= 0 && gridPos.y < puzzleSize.y;
+    }
+
     void Start()
     {
         puzzleGrid = new PuzzlePiece[puzzleSize.x, puzzleSize.y];
-        SetupPuzzlePieces();
+        // SetupPuzzlePieces();
     }
 
     void SetupPuzzlePieces()
@@ -52,6 +57,7 @@ public class PuzzleGameManager : MonoBehaviour
     {
         if (IsValidGridPosition(gridPosition) && puzzleGrid[gridPosition.x, gridPosition.y] == null)
         {
+            Debug.Log("拼對一個！");
             puzzleGrid[gridPosition.x, gridPosition.y] = piece;
             placedPieces++;
             CheckPuzzleCompletion();
@@ -74,12 +80,8 @@ public class PuzzleGameManager : MonoBehaviour
         {
             Debug.Log("拼圖完成！");
             // 在這裡添加完成拼圖後的操作
+            DestroyEntirePrefab();
         }
-    }
-
-    bool IsValidGridPosition(Vector2Int gridPos)
-    {
-        return gridPos.x >= 0 && gridPos.x < puzzleSize.x && gridPos.y >= 0 && gridPos.y < puzzleSize.y;
     }
 
     Vector3 GetRandomPosition()
