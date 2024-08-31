@@ -51,9 +51,9 @@ public class PuzzlePiece : MonoBehaviour
 
     Vector3 GetMousePosition()
     {
-        Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-        return mousePos;
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = -cam.transform.position.z;
+        return cam.ScreenToWorldPoint(mousePos);
     }
 
 }
