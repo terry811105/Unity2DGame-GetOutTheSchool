@@ -127,7 +127,10 @@ public class PlayerDialogEventScript : MonoBehaviour
     // 新增方法，用於從外部隱藏提示按鈕（如離開事件點時調用）
     public void HideSpaceButton()
     {
-        spaceBtnUI.SetActive(false);
+        if (spaceBtnUI != null)
+        {
+            spaceBtnUI.SetActive(false);
+        }
         canStartDialog = false;
     }
 
