@@ -149,6 +149,7 @@ public class PlayerDialogEventScript : MonoBehaviour
         currentDialogQueue = new Queue<Dialog>(dialogs);
         ShowNextLine();
         GetComponent<PlayerMoveScript>().canMove = false;
+        GetComponent<PlayerMoveScript>().PlayIdleAnimation();
         if (currentEventType == EventType.Talk1)
         {
             ghost.SetActive(true);
@@ -186,6 +187,7 @@ public class PlayerDialogEventScript : MonoBehaviour
             GameObject miniGameInstance = Instantiate(keyGamePrefab, littleGameParent.transform.position, Quaternion.identity);
             miniGameInstance.transform.SetParent(littleGameParent.transform, false);
             miniGameInstance.transform.localPosition = Vector3.zero;
+
         }
         else if (currentEventType == EventType.Game2)
         {
