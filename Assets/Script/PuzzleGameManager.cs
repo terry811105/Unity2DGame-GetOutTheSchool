@@ -22,23 +22,7 @@ public class PuzzleGameManager : BasePrefab
         // SetupPuzzlePieces();
     }
 
-    void SetupPuzzlePieces()
-    {
-        for (int y = 0; y < puzzleSize.y; y++)
-        {
-            for (int x = 0; x < puzzleSize.x; x++)
-            {
-                Vector3 position = GetWorldPosition(new Vector2Int(x, y));
-                GameObject pieceObj = Instantiate(puzzlePiecePrefab, GetRandomPosition(), Quaternion.identity);
-                PuzzlePiece piece = pieceObj.GetComponent<PuzzlePiece>();
-                piece.correctGridPosition = new Vector2Int(x, y);
-
-                // 設置正確的Sprite
-                // 你需要根據你的拼圖圖片來實現這個邏輯
-                // SetCorrectSprite(piece, x, y);
-            }
-        }
-    }
+    
 
     public Vector2Int GetGridPosition(Vector3 worldPosition)
     {
@@ -64,7 +48,7 @@ public class PuzzleGameManager : BasePrefab
         }
     }
 
-    public void RemovePiece(PuzzlePiece piece)
+    public void RemovePiece(PuzzlePiece piece, Vector2Int gridPosition)
     {
         Vector2Int gridPos = GetGridPosition(piece.transform.position);
         if (IsValidGridPosition(gridPos) && puzzleGrid[gridPos.x, gridPos.y] == piece)
@@ -78,9 +62,17 @@ public class PuzzleGameManager : BasePrefab
     {
         if (placedPieces == puzzleSize.x * puzzleSize.y)
         {
+            PlayerManager.Instance.TogglePlayer(true);
+
+            // GetComponent<PlayerMoveScript>().canMove = true;
             Debug.Log("拼圖完成！");
             // 在這裡添加完成拼圖後的操作
             DestroyEntirePrefab("PuzzleGame");
+            PlayerMoveScript playerScript = FindObjectOfType<PlayerMoveScript>();
+                if (playerScript != null)
+                {
+                    playerScript.canMove = true;
+                }
         }
     }
 

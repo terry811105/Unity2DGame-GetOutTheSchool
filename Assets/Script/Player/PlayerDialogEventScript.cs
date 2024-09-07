@@ -27,6 +27,7 @@ public class PlayerDialogEventScript : MonoBehaviour
     private EventType currentEventType;
     private TypewriterEffect typewriterEffect;
 
+    public GameObject player;
     public GameObject littleGameParent;
 
     public GameObject keyGamePrefab;
@@ -187,6 +188,7 @@ public class PlayerDialogEventScript : MonoBehaviour
     {
         if (currentEventType == EventType.Game1)
         {
+            littleGameParent.transform.position = new Vector3(transform.position.x, transform.position.y, -8);
             GameObject miniGameInstance = Instantiate(keyGamePrefab, littleGameParent.transform.position, Quaternion.identity);
             miniGameInstance.transform.SetParent(littleGameParent.transform, false);
             miniGameInstance.transform.localPosition = Vector3.zero;
@@ -194,6 +196,9 @@ public class PlayerDialogEventScript : MonoBehaviour
         }
         else if (currentEventType == EventType.Game2)
         {
+            PlayerManager.Instance.TogglePlayer(false);
+            player.SetActive(false);
+            littleGameParent.transform.position = transform.position;
             GameObject miniGameInstance = Instantiate(puzzleGamePrefab, littleGameParent.transform.position, Quaternion.identity);
             miniGameInstance.transform.SetParent(littleGameParent.transform, false);
             miniGameInstance.transform.localPosition = Vector3.zero;
