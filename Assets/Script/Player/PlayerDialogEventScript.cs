@@ -33,6 +33,8 @@ public class PlayerDialogEventScript : MonoBehaviour
     public GameObject keyGamePrefab;
 
     public GameObject puzzleGamePrefab;
+    public AudioSource audioSource;  
+    public AudioClip soundEffect;
     void Start()
     {
         spaceBtnUI.SetActive(false);
@@ -63,6 +65,7 @@ public class PlayerDialogEventScript : MonoBehaviour
         // 當前導動畫完成時，觸發介紹對話
         // TriggerEventDialog(EventType.Intro);
         currentEventType = EventType.Intro;
+        audioSource.PlayOneShot(soundEffect);
         StartEventDialog();
 
     }

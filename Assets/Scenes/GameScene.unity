@@ -5617,6 +5617,8 @@ MonoBehaviour:
   littleGameParent: {fileID: 1423481093}
   keyGamePrefab: {fileID: 3410479366327293693, guid: e8eadce6d226fd44aac01541d8106b48, type: 3}
   puzzleGamePrefab: {fileID: 8071005340973333097, guid: 648d56be27d5a2843b60ac9af43744ef, type: 3}
+  audioSource: {fileID: 0}
+  soundEffect: {fileID: 8300000, guid: 4abf44c734ae5504a8d3cd4e6578bd1e, type: 3}
 --- !u!1 &1596859077
 GameObject:
   m_ObjectHideFlags: 0
