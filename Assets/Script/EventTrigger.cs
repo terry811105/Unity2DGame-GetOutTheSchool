@@ -4,7 +4,28 @@ public enum EventType
 {
     Intro,
     Check1,
-    Talk1
+    Check2,
+    Check3,
+    Check4,
+    Check5,
+    Check6,
+    Check7,
+    Check8,
+    Check9,
+    Talk1,
+    Talk2,
+    Talk3,
+    Talk4,
+    Talk5,
+    Talk6,
+    Talk7,
+    Talk8,
+    Game1,
+    Opengame1,
+    Game2,
+    Opengame2
+
+
 }
 public class EventTrigger : MonoBehaviour
 {

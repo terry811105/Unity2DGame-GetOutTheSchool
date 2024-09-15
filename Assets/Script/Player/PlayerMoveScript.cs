@@ -39,7 +39,7 @@ public class PlayerMoveScript : MonoBehaviour
         {
             // 如果不能移動，確保角色停止
             rdBody.velocity = Vector2.zero;
-            // animator.SetFloat("Run", 0);
+            
         }
         
     }
@@ -124,7 +124,7 @@ public class PlayerMoveScript : MonoBehaviour
         }
     }
 
-    private void PlayIdleAnimation()
+    public void PlayIdleAnimation()
     {
         if (Mathf.Abs(lastMovementDirection.x) > Mathf.Abs(lastMovementDirection.y))
         {

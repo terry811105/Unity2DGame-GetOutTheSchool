@@ -18,6 +18,7 @@ public class PlayerDialogEventScript : MonoBehaviour
 {
     public GameObject spaceBtnUI;
     public GameObject dialogUI;
+    public GameObject ghost;
     public TextMeshProUGUI textUI;
     private bool isDialogActive = false;
     private bool canStartDialog = false;
@@ -25,10 +26,18 @@ public class PlayerDialogEventScript : MonoBehaviour
     private Queue<Dialog> currentDialogQueue;
     private EventType currentEventType;
     private TypewriterEffect typewriterEffect;
+
+    public GameObject player;
+    public GameObject littleGameParent;
+
+    public GameObject keyGamePrefab;
+
+    public GameObject puzzleGamePrefab;
     void Start()
     {
         spaceBtnUI.SetActive(false);
         dialogUI.SetActive(false);
+        ghost.SetActive(false);
         LoadDialogsFromCSV();
         SetupTypewriterEffect();
     }
@@ -38,9 +47,9 @@ public class PlayerDialogEventScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (canStartDialog && !isDialogActive) 
+            if (canStartDialog && !isDialogActive)
             {
-                StartEventDialog(); 
+                StartEventDialog();
             }
             else if (isDialogActive)
             {
@@ -85,7 +94,7 @@ public class PlayerDialogEventScript : MonoBehaviour
                     text = values[3],
                     emotion = values[4]
                 };
-                Debug.Log("加载的对话: " + dialog.text );
+                Debug.Log("加载的对话: " + dialog.text);
                 allDialogs.Add(dialog);
             }
         }
@@ -119,11 +128,14 @@ public class PlayerDialogEventScript : MonoBehaviour
     // 新增方法，用於從外部隱藏提示按鈕（如離開事件點時調用）
     public void HideSpaceButton()
     {
-        spaceBtnUI.SetActive(false);
+        if (spaceBtnUI != null)
+        {
+            spaceBtnUI.SetActive(false);
+        }
         canStartDialog = false;
     }
 
-     private void StartEventDialog()
+    private void StartEventDialog()
     {
         List<Dialog> eventDialogs = allDialogs.Where(d => d.eventType == currentEventType.ToString()).ToList();
         if (eventDialogs.Count > 0)
@@ -141,6 +153,11 @@ public class PlayerDialogEventScript : MonoBehaviour
         currentDialogQueue = new Queue<Dialog>(dialogs);
         ShowNextLine();
         GetComponent<PlayerMoveScript>().canMove = false;
+        GetComponent<PlayerMoveScript>().PlayIdleAnimation();
+        if (currentEventType == EventType.Talk1)
+        {
+            ghost.SetActive(true);
+        }
     }
 
     private void ShowNextLine()
@@ -150,7 +167,7 @@ public class PlayerDialogEventScript : MonoBehaviour
             Dialog currentDialog = currentDialogQueue.Dequeue();
             string displayText = $"{currentDialog.character}: {currentDialog.text}";
             typewriterEffect.StartTyping(displayText);
-            
+
             // 這裡可以根據 currentDialog.emotion 設置角色表情或其他視覺效果
         }
         else
@@ -163,7 +180,33 @@ public class PlayerDialogEventScript : MonoBehaviour
     {
         isDialogActive = false;
         dialogUI.SetActive(false);
-        GetComponent<PlayerMoveScript>().canMove = true;
+        checkIsNeedLoadMiniGame();
+       
+    }
+
+    private void checkIsNeedLoadMiniGame()
+    {
+        if (currentEventType == EventType.Game1)
+        {
+            littleGameParent.transform.position = new Vector3(transform.position.x, transform.position.y, -8);
+            GameObject miniGameInstance = Instantiate(keyGamePrefab, littleGameParent.transform.position, Quaternion.identity);
+            miniGameInstance.transform.SetParent(littleGameParent.transform, false);
+            miniGameInstance.transform.localPosition = Vector3.zero;
+
+        }
+        else if (currentEventType == EventType.Game2)
+        {
+            PlayerManager.Instance.TogglePlayer(false);
+            player.SetActive(false);
+            littleGameParent.transform.position = transform.position;
+            GameObject miniGameInstance = Instantiate(puzzleGamePrefab, littleGameParent.transform.position, Quaternion.identity);
+            miniGameInstance.transform.SetParent(littleGameParent.transform, false);
+            miniGameInstance.transform.localPosition = Vector3.zero;
+        }
+        else 
+        {
+             GetComponent<PlayerMoveScript>().canMove = true;
+        }
     }
 
     private void SetupTypewriterEffect()

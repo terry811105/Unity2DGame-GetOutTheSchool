@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class KeyGameManager : MonoBehaviour
+public class KeyGameManager : BasePrefab
 {
     public Transform fixedPoint;
     public MovingPoint movingPoint;
@@ -9,10 +9,11 @@ public class KeyGameManager : MonoBehaviour
     public GameObject successCirclePrefab; // 新增：成功時顯示的圓圈預製體
     public float circleDisplayTime = 1f; // 新增：圓圈顯示的時間
     private bool isMoving = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -24,7 +25,14 @@ public class KeyGameManager : MonoBehaviour
             {
                 Debug.Log("成功！");
                 // 在這裡添加成功的邏輯
-                StartCoroutine(SuccessSequence());
+                // StartCoroutine(SuccessSequence());
+
+                DestroyEntirePrefab("KeyGame");
+                PlayerMoveScript playerScript = FindObjectOfType<PlayerMoveScript>();
+                if (playerScript != null)
+                {
+                    playerScript.canMove = true;
+                }
             }
             else
             {
@@ -40,6 +48,7 @@ public class KeyGameManager : MonoBehaviour
         yield return StartCoroutine(ShowSuccessCircle());
         MoveFixedPointToRandomPosition();
         isMoving = false;
+
     }
 
     IEnumerator ShowSuccessCircle()
@@ -56,7 +65,7 @@ public class KeyGameManager : MonoBehaviour
     void MoveFixedPointToRandomPosition()
     {
         float radius = movingPoint.radius;  // 使用 MovingPoint 的 radius
-        
+
         // 生成一個隨機角度（0到360度）
         float randomAngle = Random.Range(0f, 360f);
         // 將角度轉換為弧度
@@ -69,5 +78,6 @@ public class KeyGameManager : MonoBehaviour
         // 設置fixedPoint的新位置
         fixedPoint.position = new Vector3(x, y, 0);
     }
+
 
 }
