@@ -64,12 +64,12 @@ public class PlayerDialogEventScript : MonoBehaviour
 
         if (isShowingChoices)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 currentChoiceIndex = (currentChoiceIndex - 1 + choiceTexts.Length) % choiceTexts.Length;
                 UpdateChoiceHighlight();
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 currentChoiceIndex = (currentChoiceIndex + 1) % choiceTexts.Length;
                 UpdateChoiceHighlight();
@@ -274,6 +274,10 @@ public class PlayerDialogEventScript : MonoBehaviour
         Dialog nextDialog = allDialogs.FirstOrDefault(d => d.id == nextDialogId);
         if (nextDialog != null)
         {
+            for (int i = 0; i < choiceTexts.Length; i++)
+            {
+                choiceTexts[i].gameObject.SetActive(false);
+            }
             currentDialogQueue.Clear();
             currentDialogQueue.Enqueue(nextDialog);
         }
@@ -292,7 +296,7 @@ public class PlayerDialogEventScript : MonoBehaviour
 
     private void checkIsNeedLoadMiniGame()
     {
-        if (currentEventType == EventType.Game1)
+        if (currentEventType == EventType.Opengame1)
         {
             littleGameParent.transform.position = new Vector3(transform.position.x, transform.position.y, -8);
             GameObject miniGameInstance = Instantiate(keyGamePrefab, littleGameParent.transform.position, Quaternion.identity);
@@ -300,7 +304,7 @@ public class PlayerDialogEventScript : MonoBehaviour
             miniGameInstance.transform.localPosition = Vector3.zero;
 
         }
-        else if (currentEventType == EventType.Game2)
+        else if (currentEventType == EventType.Opengame2)
         {
             PlayerManager.Instance.TogglePlayer(false);
             player.SetActive(false);

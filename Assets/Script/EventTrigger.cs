@@ -20,10 +20,12 @@ public enum EventType
     Talk6,
     Talk7,
     Talk8,
-    Game1,
+    Game1start,
+    Game1over,
     Opengame1,
-    Game2,
-    Opengame2
+    Opengame2,
+    Game2over
+
 
 
 }
