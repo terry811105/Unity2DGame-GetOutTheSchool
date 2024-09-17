@@ -12,6 +12,9 @@ public class Dialog
     public string character;
     public string text;
     public string emotion;
+    public bool isChoice;
+    public string[] choices;
+    public string[] nextDialogIds;
 }
 
 public class PlayerDialogEventScript : MonoBehaviour
@@ -26,12 +29,12 @@ public class PlayerDialogEventScript : MonoBehaviour
     private Queue<Dialog> currentDialogQueue;
     private EventType currentEventType;
     private TypewriterEffect typewriterEffect;
-
+    public TextMeshProUGUI[] choiceTexts; // 新增：选择文本数组
+    private int currentChoiceIndex = 0; // 新增：当前选择的索引
+    private bool isShowingChoices = false; // 新增：是否正在显示选择
     public GameObject player;
     public GameObject littleGameParent;
-
     public GameObject keyGamePrefab;
-
     public GameObject puzzleGamePrefab;
     public AudioSource audioSource;  
     public AudioClip soundEffect;
@@ -53,9 +56,27 @@ public class PlayerDialogEventScript : MonoBehaviour
             {
                 StartEventDialog();
             }
-            else if (isDialogActive)
+            else if (isDialogActive && !isShowingChoices)
             {
                 ShowNextLine();
+            }
+        }
+
+        if (isShowingChoices)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                currentChoiceIndex = (currentChoiceIndex - 1 + choiceTexts.Length) % choiceTexts.Length;
+                UpdateChoiceHighlight();
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                currentChoiceIndex = (currentChoiceIndex + 1) % choiceTexts.Length;
+                UpdateChoiceHighlight();
+            }
+            else if (Input.GetKeyDown(KeyCode.Return))
+            {
+                MakeChoice();
             }
         }
     }
@@ -76,7 +97,7 @@ public class PlayerDialogEventScript : MonoBehaviour
         if (csvFile == null)
         {
             Debug.LogError("无法加载对话CSV文件。请确保 'DialogFiled.csv' 文件存在于 Resources 文件夹中。");
-            allDialogs = new List<Dialog>(); // 初始化为空列表而不是 null
+            allDialogs = new List<Dialog>();
             return;
         }
 
@@ -87,7 +108,7 @@ public class PlayerDialogEventScript : MonoBehaviour
         for (int i = 1; i < lines.Length; i++)
         {
             string[] values = lines[i].Split(',');
-            if (values.Length >= 5)
+            if (values.Length >= 9) // 确保有足够的列
             {
                 Dialog dialog = new Dialog
                 {
@@ -95,10 +116,37 @@ public class PlayerDialogEventScript : MonoBehaviour
                     eventType = values[1],
                     character = values[2],
                     text = values[3],
-                    emotion = values[4]
+                    emotion = values[4],
+                    // Remark 和 Condition 字段在这里被跳过，因为 Dialog 类中没有相应的属性
+                    isChoice = false,
+                    choices = values[8].Split(';'),
+                    nextDialogIds = values[9].Split(';')
                 };
+                if (values[7] == "TRUE")
+                {
+                    dialog.isChoice = true;
+                } 
+                else
+                {
+                    dialog.isChoice = false;
+                }
+
+                // 处理空字符串的情况
+                if (string.IsNullOrEmpty(values[8]))
+                {
+                    dialog.choices = new string[0];
+                }
+                if (string.IsNullOrEmpty(values[9]))
+                {
+                    dialog.nextDialogIds = new string[0];
+                }
+
                 Debug.Log("加载的对话: " + dialog.text);
                 allDialogs.Add(dialog);
+            }
+            else
+            {
+                Debug.LogWarning($"第 {i + 1} 行的数据不完整，已跳过。");
             }
         }
 
@@ -167,16 +215,71 @@ public class PlayerDialogEventScript : MonoBehaviour
     {
         if (currentDialogQueue.Count > 0)
         {
-            Dialog currentDialog = currentDialogQueue.Dequeue();
-            string displayText = $"{currentDialog.character}: {currentDialog.text}";
-            typewriterEffect.StartTyping(displayText);
-
-            // 這裡可以根據 currentDialog.emotion 設置角色表情或其他視覺效果
+            Dialog currentDialog = currentDialogQueue.Peek();
+            
+            if (currentDialog.isChoice)
+            {
+                ShowChoices(currentDialog);
+            }
+            else
+            {
+                isShowingChoices = false;
+                string displayText = $"{currentDialog.character}: {currentDialog.text}";
+                typewriterEffect.StartTyping(displayText);
+                currentDialogQueue.Dequeue();
+            }
         }
         else
         {
             EndDialog();
         }
+    }
+
+    private void ShowChoices(Dialog dialog)
+    {
+        isShowingChoices = true;
+        currentChoiceIndex = 0;
+
+        textUI.text = dialog.text; // 显示选择提示文本
+
+        for (int i = 0; i < choiceTexts.Length; i++)
+        {
+            if (i < dialog.choices.Length)
+            {
+                choiceTexts[i].gameObject.SetActive(true);
+                choiceTexts[i].text = dialog.choices[i];
+            }
+            else
+            {
+                choiceTexts[i].gameObject.SetActive(false);
+            }
+        }
+
+        UpdateChoiceHighlight();
+    }
+
+    private void UpdateChoiceHighlight()
+    {
+        for (int i = 0; i < choiceTexts.Length; i++)
+        {
+            choiceTexts[i].color = (i == currentChoiceIndex) ? Color.yellow : Color.white;
+        }
+    }
+
+    private void MakeChoice()
+    {
+        Dialog currentDialog = currentDialogQueue.Dequeue();
+        string nextDialogId = currentDialog.nextDialogIds[currentChoiceIndex];
+        
+        Dialog nextDialog = allDialogs.FirstOrDefault(d => d.id == nextDialogId);
+        if (nextDialog != null)
+        {
+            currentDialogQueue.Clear();
+            currentDialogQueue.Enqueue(nextDialog);
+        }
+
+        isShowingChoices = false;
+        ShowNextLine();
     }
 
     private void EndDialog()
