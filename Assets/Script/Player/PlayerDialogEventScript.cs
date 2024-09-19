@@ -66,7 +66,9 @@ public class PlayerDialogEventScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                
                 currentChoiceIndex = (currentChoiceIndex - 1 + choiceTexts.Length) % choiceTexts.Length;
+
                 UpdateChoiceHighlight();
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -141,7 +143,7 @@ public class PlayerDialogEventScript : MonoBehaviour
                     dialog.nextDialogIds = new string[0];
                 }
 
-                Debug.Log("加载的对话: " + dialog.text);
+                Debug.Log("加载的对话: " + dialog.text +", id: " + dialog.id + ", nextId: " + dialog.nextDialogIds + dialog.nextDialogIds.Length);
                 allDialogs.Add(dialog);
             }
             else
@@ -260,6 +262,7 @@ public class PlayerDialogEventScript : MonoBehaviour
 
     private void UpdateChoiceHighlight()
     {
+        Debug.Log("isShowingChoices index: "+ currentChoiceIndex);
         for (int i = 0; i < choiceTexts.Length; i++)
         {
             choiceTexts[i].color = (i == currentChoiceIndex) ? Color.yellow : Color.white;
@@ -268,22 +271,59 @@ public class PlayerDialogEventScript : MonoBehaviour
 
     private void MakeChoice()
     {
+        
         Dialog currentDialog = currentDialogQueue.Dequeue();
         string nextDialogId = currentDialog.nextDialogIds[currentChoiceIndex];
         
-        Dialog nextDialog = allDialogs.FirstOrDefault(d => d.id == nextDialogId);
+        Dialog nextDialog = allDialogs.FirstOrDefault(d => d.id == nextDialogId.Trim());
+
+        Debug.Log("MakeChoice index: " + currentChoiceIndex + "currentDialog: " + currentDialog.eventType + ", next id: " + currentDialog.nextDialogIds[currentChoiceIndex]);
+        foreach (var dialog in allDialogs)
+        {
+            Debug.Log("dialog id: " + dialog.id + ", nextid: " + nextDialogId);
+            Debug.Log($"dialog.id type: {dialog.id.GetType()}, nextDialogId type: {nextDialogId.GetType()}");
+            Debug.Log("same ?: " + (dialog.id == nextDialogId));
+            Debug.Log("same Equals ?: " + dialog.id.Equals(nextDialogId));
+            Debug.Log("same Trim ?: " + (dialog.id.Trim() == nextDialogId.Trim()));
+            Debug.Log($"dialog.id representation: '{dialog.id}', nextDialogId representation: '{nextDialogId}'");
+            if (dialog.id == nextDialogId)
+            {
+                Debug.Log("Same Id");
+                nextDialog = dialog;
+                break;
+            }
+        }
         if (nextDialog != null)
         {
+            Debug.Log("MakeChoice: " + nextDialog.eventType);
+            switch (nextDialog.eventType)
+            {
+                case "End1":
+                Debug.Log("end1");
+                currentEventType = EventType.End1;
+                break;
+                case "End2":
+                Debug.Log("end2");
+                currentEventType = EventType.End2;
+                break;
+                default:
+                break;
+
+            }
             for (int i = 0; i < choiceTexts.Length; i++)
             {
                 choiceTexts[i].gameObject.SetActive(false);
             }
-            currentDialogQueue.Clear();
-            currentDialogQueue.Enqueue(nextDialog);
+            // currentDialogQueue.Clear();
+            // currentDialogQueue.Enqueue(nextDialog);
+        }
+        else
+        {
+            Debug.Log("no next");
         }
 
         isShowingChoices = false;
-        ShowNextLine();
+        StartEventDialog();
     }
 
     private void EndDialog()
@@ -291,7 +331,6 @@ public class PlayerDialogEventScript : MonoBehaviour
         isDialogActive = false;
         dialogUI.SetActive(false);
         checkIsNeedLoadMiniGame();
-       
     }
 
     private void checkIsNeedLoadMiniGame()

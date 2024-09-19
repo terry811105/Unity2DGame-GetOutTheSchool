@@ -24,7 +24,9 @@ public enum EventType
     Game1over,
     Opengame1,
     Opengame2,
-    Game2over
+    Game2over,
+    End1,
+    End2
 
 
 
