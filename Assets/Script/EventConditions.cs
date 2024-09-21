@@ -35,7 +35,7 @@ public class EventConditions : MonoBehaviour
         // AddEventRequirement(EventType.Game1start, EventType.Talk2);
     }
 
-    // 加入已完成事件進入序列
+    // 加入事件條件
     public void AddEventRequirement(EventType eventType, EventType requiredEvent)
     {
         if (!eventRequirements.ContainsKey(eventType))

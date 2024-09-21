@@ -353,9 +353,19 @@ public class PlayerDialogEventScript : MonoBehaviour
         checkIsNeedLoadMiniGame();
         // 對話結束時,將當前事件標記為已完成
         PlayerProgress.Instance.CompleteEvent(currentEventType.ToString());
-        
+        hideEventPoint();
         // 檢查是否需要解鎖新的事件點
         CheckAndUnlockEventPoints();
+    }
+
+    private void hideEventPoint()
+    {
+        string eventType = currentEventType.ToString();
+        GameObject eventPoint = GameObject.Find(eventType);
+        if (eventPoint != null)
+        {
+            eventPoint.SetActive(false);
+        }
     }
 
     private void checkIsNeedLoadMiniGame()

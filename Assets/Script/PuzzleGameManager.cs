@@ -74,6 +74,7 @@ public class PuzzleGameManager : BasePrefab
             PlayerDialogEventScript dialogScript = FindAnyObjectByType<PlayerDialogEventScript>();
             dialogScript.currentEventType = EventType.Game1over;
             dialogScript.StartEventDialog();
+            PlayerProgress.Instance.CompleteEvent("Game1over");
             GameObject puzzleGamePoint = GameObject.Find("PuzzleGamePoint");
             if (puzzleGamePoint != null)
             {

@@ -36,6 +36,7 @@ public class KeyGameManager : BasePrefab
                 PlayerDialogEventScript dialogScript = FindAnyObjectByType<PlayerDialogEventScript>();
                 dialogScript.currentEventType = EventType.Game2over;
                 dialogScript.StartEventDialog();
+                PlayerProgress.Instance.CompleteEvent("Game2over");
                 GameObject KeyGamePoint = GameObject.Find("KeyGamePoint");
                 if (KeyGamePoint != null)
                 {
