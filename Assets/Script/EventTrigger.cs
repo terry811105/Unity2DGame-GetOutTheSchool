@@ -42,7 +42,15 @@ public class EventTrigger : MonoBehaviour
             PlayerDialogEventScript playerDialog = collision.GetComponent<PlayerDialogEventScript>();
             if (playerDialog != null)
             {
-                playerDialog.TriggerEventDialog(eventType);
+                if (CanTriggerEvent())
+                {
+                    playerDialog.TriggerEventDialog(eventType);
+                }
+                else
+                {
+                    Debug.Log($"无法触发事件 {eventType}: 条件未满足");
+                }
+                
             }
         }
     }
@@ -54,6 +62,17 @@ public class EventTrigger : MonoBehaviour
         {
             playerDialog.HideSpaceButton();
         }
+    }
+
+    private bool CanTriggerEvent()
+    {
+        // 检查事件条件
+        if (!EventConditions.Instance.AreConditionsMet(eventType))
+        {
+            return false;
+        }
+
+        return true;
     }
 
 }

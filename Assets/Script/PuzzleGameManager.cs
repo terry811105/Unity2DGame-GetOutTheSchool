@@ -63,16 +63,27 @@ public class PuzzleGameManager : BasePrefab
         if (placedPieces == puzzleSize.x * puzzleSize.y)
         {
             PlayerManager.Instance.TogglePlayer(true);
-
-            // GetComponent<PlayerMoveScript>().canMove = true;
             Debug.Log("拼圖完成！");
             // 在這裡添加完成拼圖後的操作
             DestroyEntirePrefab("PuzzleGame");
-            PlayerMoveScript playerScript = FindObjectOfType<PlayerMoveScript>();
-                if (playerScript != null)
-                {
-                    playerScript.canMove = true;
-                }
+            PlayerMoveScript playerScript = FindAnyObjectByType<PlayerMoveScript>();
+            if (playerScript != null)
+            {
+                playerScript.canMove = true;
+            } 
+            PlayerDialogEventScript dialogScript = FindAnyObjectByType<PlayerDialogEventScript>();
+            dialogScript.currentEventType = EventType.Game1over;
+            dialogScript.StartEventDialog();
+            GameObject puzzleGamePoint = GameObject.Find("PuzzleGamePoint");
+            if (puzzleGamePoint != null)
+            {
+                puzzleGamePoint.SetActive(false);
+                Debug.Log("PuzzleGamePoint has been deactivated.");
+            }
+            else
+            {
+                Debug.LogWarning("PuzzleGamePoint not found in the scene.");
+            }
         }
     }
 

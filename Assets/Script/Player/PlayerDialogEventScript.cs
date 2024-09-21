@@ -27,7 +27,7 @@ public class PlayerDialogEventScript : MonoBehaviour
     private bool canStartDialog = false;
     private List<Dialog> allDialogs;
     private Queue<Dialog> currentDialogQueue;
-    private EventType currentEventType;
+    public EventType currentEventType;
     private TypewriterEffect typewriterEffect;
     public TextMeshProUGUI[] choiceTexts; // 新增：选择文本数组
     private int currentChoiceIndex = 0; // 新增：当前选择的索引
@@ -124,6 +124,19 @@ public class PlayerDialogEventScript : MonoBehaviour
                     choices = values[8].Split(';'),
                     nextDialogIds = values[9].Split(';')
                 };
+
+                string conditionField = values[6];
+                if (!string.IsNullOrEmpty(conditionField))
+                {
+                    string[] conditions = conditionField.Split(';');  // 用分號分割條件
+                    EventType eventType = (EventType)System.Enum.Parse(typeof(EventType), dialog.eventType);
+                    foreach (string condition in conditions)
+                    {
+                        EventType requiredEvent = (EventType)System.Enum.Parse(typeof(EventType), condition);
+                        EventConditions.Instance.AddEventRequirement(eventType, requiredEvent);  // 加入事件需求
+                    }
+                }
+
                 if (values[7] == "TRUE")
                 {
                     dialog.isChoice = true;
@@ -160,15 +173,22 @@ public class PlayerDialogEventScript : MonoBehaviour
 
     public void TriggerEventDialog(EventType eventType)
     {
-        List<Dialog> eventDialogs = allDialogs.Where(d => d.eventType == eventType.ToString()).ToList();
-        if (eventDialogs.Count > 0)
+        if (EventConditions.Instance.AreConditionsMet(eventType))
         {
-            currentEventType = eventType;
-            ShowSpaceButton();
+            List<Dialog> eventDialogs = allDialogs.Where(d => d.eventType == eventType.ToString()).ToList();
+            if (eventDialogs.Count > 0)
+            {
+                currentEventType = eventType;
+                ShowSpaceButton();
+            }
+            else
+            {
+                Debug.LogWarning($"No dialog found for event type: {eventType}");
+            }
         }
         else
         {
-            Debug.LogWarning($"No dialog found for event type: {eventType}");
+            Debug.Log($"無法觸發事件 {eventType}: 條件未滿足");
         }
     }
 
@@ -188,7 +208,7 @@ public class PlayerDialogEventScript : MonoBehaviour
         canStartDialog = false;
     }
 
-    private void StartEventDialog()
+    public void StartEventDialog()
     {
         List<Dialog> eventDialogs = allDialogs.Where(d => d.eventType == currentEventType.ToString()).ToList();
         if (eventDialogs.Count > 0)
@@ -331,11 +351,16 @@ public class PlayerDialogEventScript : MonoBehaviour
         isDialogActive = false;
         dialogUI.SetActive(false);
         checkIsNeedLoadMiniGame();
+        // 對話結束時,將當前事件標記為已完成
+        PlayerProgress.Instance.CompleteEvent(currentEventType.ToString());
+        
+        // 檢查是否需要解鎖新的事件點
+        CheckAndUnlockEventPoints();
     }
 
     private void checkIsNeedLoadMiniGame()
     {
-        if (currentEventType == EventType.Opengame1)
+        if (currentEventType == EventType.Opengame2)
         {
             littleGameParent.transform.position = new Vector3(transform.position.x, transform.position.y, -8);
             GameObject miniGameInstance = Instantiate(keyGamePrefab, littleGameParent.transform.position, Quaternion.identity);
@@ -343,8 +368,9 @@ public class PlayerDialogEventScript : MonoBehaviour
             miniGameInstance.transform.localPosition = Vector3.zero;
 
         }
-        else if (currentEventType == EventType.Opengame2)
+        else if (currentEventType == EventType.Opengame1)
         {
+            Debug.Log("~~~~ Opengame1 ~~~~");
             PlayerManager.Instance.TogglePlayer(false);
             player.SetActive(false);
             littleGameParent.transform.position = transform.position;
@@ -358,6 +384,19 @@ public class PlayerDialogEventScript : MonoBehaviour
         }
     }
 
+    private void CheckAndUnlockEventPoints()
+    {
+        EventTrigger[] allEventTriggers = FindObjectsOfType<EventTrigger>();
+        
+        foreach (EventTrigger trigger in allEventTriggers)
+        {
+            if (EventConditions.Instance.AreConditionsMet(trigger.eventType))
+            {
+                trigger.gameObject.SetActive(true);
+            }
+        }
+    }
+
     private void SetupTypewriterEffect()
     {
         typewriterEffect = textUI.GetComponent<TypewriterEffect>();
@@ -365,5 +404,12 @@ public class PlayerDialogEventScript : MonoBehaviour
         {
             typewriterEffect = textUI.gameObject.AddComponent<TypewriterEffect>();
         }
+    }
+
+    // 新增方法來收集物品
+    public void CollectItem(string itemName)
+    {
+        PlayerProgress.Instance.CollectItem(itemName);
+        CheckAndUnlockEventPoints(); // 每次收集物品後檢查是否可以解鎖新的事件點
     }
 }

@@ -33,6 +33,19 @@ public class KeyGameManager : BasePrefab
                 {
                     playerScript.canMove = true;
                 }
+                PlayerDialogEventScript dialogScript = FindAnyObjectByType<PlayerDialogEventScript>();
+                dialogScript.currentEventType = EventType.Game2over;
+                dialogScript.StartEventDialog();
+                GameObject KeyGamePoint = GameObject.Find("KeyGamePoint");
+                if (KeyGamePoint != null)
+                {
+                    KeyGamePoint.SetActive(false);
+                    Debug.Log("KeyGamePoint has been deactivated.");
+                }
+                else
+                {
+                    Debug.LogWarning("KeyGamePoint not found in the scene.");
+                }
             }
             else
             {
